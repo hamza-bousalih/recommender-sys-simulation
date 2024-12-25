@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -33,9 +32,9 @@ const Navbar: FC = () => {
             className="text-4xl font-bold dark:text-white"
             data-test="main-logo"
           >
-            Shopify
+            CD-RS-TL
           </Link>
-          <div className="lg:flex hidden w-full max-w-[500px]">
+          {/* <div className="lg:flex hidden w-full max-w-[500px]">
             <input
               type="text"
               placeholder="Search for a product..."
@@ -44,7 +43,7 @@ const Navbar: FC = () => {
             <div className="bg-blue-500 text-white text-[26px] grid place-items-center px-4">
               <BsSearch />
             </div>
-          </div>
+          </div> */}
           <div className="flex gap-4 md:gap-8 items-center dark:text-white">
             {/*<Link
               to="/products"

@@ -10,10 +10,20 @@ const initialState: AuthSlice = {
   isLoggedIn:
     localStorage.getItem("username") !== null &&
     localStorage.getItem("username") !== undefined &&
-    localStorage.getItem("username") !== "",
-  modalOpen: false,
-  username: localStorage.getItem("username") ?? "",
+    localStorage.getItem("username") !== "" &&
+    localStorage.getItem("id") !== null &&
+    localStorage.getItem("id") !== undefined &&
+    localStorage.getItem("id") !== "",
+    modalOpen: false,
+    username: localStorage.getItem("username") ?? "",
+    id: localStorage.getItem("id") ?? "",
 };
+
+const users = [
+  { id: 1, username: "user 1", password: "123" },
+  { id: 2, username: "user 2", password: "123" },
+  { id: 3, username: "user 3", password: "123" },
+]
 
 export const authSlice = createSlice({
   name: "authSlice",
@@ -24,13 +34,14 @@ export const authSlice = createSlice({
     },
     doLogin: (state, action: PayloadAction<LoginProps>) => {
       if (
-        action.payload.username === "atuny0" &&
-        action.payload.password === "9uQFF1Lh"
+        users.some(u => u.username === action.payload.username && u.password === action.payload.password)
       ) {
-        localStorage.setItem("username", "atuny0");
+        localStorage.setItem("username", action.payload.username);
+        localStorage.setItem("id", users.find(u => u.username === action.payload.username)?.id.toString() ?? "");
         return {
           ...state,
-          username: "atuny0",
+          username: action.payload.username,
+          id: users.find(u => u.username === action.payload.username)?.id.toString() ?? "",
           modalOpen: false,
           isLoggedIn: true,
         };
@@ -40,7 +51,8 @@ export const authSlice = createSlice({
     },
     doLogout: (state) => {
       localStorage.removeItem("username");
-      return { ...state, username: "", isLoggedIn: false };
+      localStorage.removeItem("id");
+      return { ...state, username: "", isLoggedIn: false, id: "" };
     },
   },
 });

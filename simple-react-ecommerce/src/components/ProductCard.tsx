@@ -42,7 +42,7 @@ const ProductCard: FC<Product> = ({
   return (
     <div className="border border-gray-200 font-lato" data-test="product-card">
       <div 
-        className="inline-block h-60 flex items-center justify-center bg-gray-100 text-gray-700 font-bold text-2xl border border-gray-300 rounded-md"
+        className="inline-block h-60 flex items-center justify-center font-bold text-2xl border rounded-md hover:bg-blue-500 text-white py-2 px-4 rounded bg-pink-500"
       >
         {id}
       </div>
