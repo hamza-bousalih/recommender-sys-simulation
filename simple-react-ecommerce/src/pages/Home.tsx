@@ -1,15 +1,12 @@
 import { FC, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
-import Features from "../components/Features";
-import TrendingProducts from "../components/TrendingProducts";
-import { useAppDispatch } from "../redux/hooks";
-import {
-  updateNewList,
-  updateFeaturedList,
-} from "../redux/features/productSlice";
+import ForYouProducts from "../components/TrendingProducts";
 import { Product } from "../models/Product";
-import LatestProducts from "../components/LatestProducts";
-import Banner from "../components/Banner";
+import {
+  updateFeaturedList,
+  updateNewList,
+} from "../redux/features/productSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,14 +20,14 @@ const Home: FC = () => {
           products.forEach((product: Product) => {
             productList.push({
               id: product.id,
-              title: product.title,
+              title: `Title ${product.id}`,
               images: product.images,
-              price: product.price,
-              rating: product.rating,
+              price: Math.round(Math.random() * 100),
+              rating: Math.round(Math.random() * 5),
               thumbnail: product.thumbnail,
-              description: product.description,
-              category: product.category,
-              discountPercentage: product.discountPercentage,
+              description: `Description ${product.id}`,
+              category: `Category ${product.id}`,
+              discountPercentage: Math.round(Math.random() * 50),
             });
           });
           dispatch(updateFeaturedList(productList.slice(0, 8)));
@@ -43,10 +40,10 @@ const Home: FC = () => {
   return (
     <div className="dark:bg-slate-800">
       <HeroSection />
-      <Features />
-      <TrendingProducts />
-      <Banner />
-      <LatestProducts />
+      {/* <Features /> */}
+      <ForYouProducts />
+      {/* <Banner /> */}
+      {/* <Testimonials /> */}
       <br />
     </div>
   );

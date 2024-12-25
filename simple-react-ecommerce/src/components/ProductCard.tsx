@@ -1,13 +1,12 @@
 import { FC } from "react";
-import { Product } from "../models/Product";
-import RatingStar from "./RatingStar";
-import { addToCart } from "../redux/features/cartSlice";
-import { useAppDispatch } from "../redux/hooks";
 import toast from "react-hot-toast";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import PriceSection from "./PriceSection";
 import useAuth from "../hooks/useAuth";
+import { Product } from "../models/Product";
+import { addToCart } from "../redux/features/cartSlice";
+import { useAppDispatch } from "../redux/hooks";
+import PriceSection from "./PriceSection";
+import RatingStar from "./RatingStar";
 
 const ProductCard: FC<Product> = ({
   id,
@@ -42,26 +41,34 @@ const ProductCard: FC<Product> = ({
 
   return (
     <div className="border border-gray-200 font-lato" data-test="product-card">
-      <div className="text-center border-b border-gray-200">
+      <div 
+        className="inline-block h-60 flex items-center justify-center bg-gray-100 text-gray-700 font-bold text-2xl border border-gray-300 rounded-md"
+      >
+        {id}
+      </div>
+      {/*<div className="text-center border-b border-gray-200">
         <Link to={{ pathname: `/product/${id}` }}>
           <img
             src={thumbnail}
             alt={title}
             className="inline-block h-60 transition-transform duration-200 hover:scale-110"
           />
-        </Link>
-      </div>
+        </Link> 
+      </div>*/}
       <div className="px-4 pt-4">
         <p className="text-gray-500 text-[14px] font-medium dark:text-white">
           {category}
         </p>
-        <Link
+        <h3 className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block">
+          {title}
+        </h3>
+        {/* <Link
           className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block"
           to={{ pathname: `/product/${id}` }}
           title={title}
         >
           {title}
-        </Link>
+        </Link> */}
       </div>
       <div className="px-4">
         <RatingStar rating={rating} />

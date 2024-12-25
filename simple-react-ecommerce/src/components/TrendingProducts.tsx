@@ -6,7 +6,7 @@ const TrendingProducts = () => {
     (state) => state.productReducer.featuredProducts
   );
 
-  return <ProductList title="Trending Products" products={featuredProducts} />;
+  return <ProductList title="For You" products={featuredProducts} />;
 };
 
 export default TrendingProducts;

@@ -1,15 +1,15 @@
 import { FC } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { setCartState } from "../redux/features/cartSlice";
-import { updateModal } from "../redux/features/authSlice";
+import { FaUser } from "react-icons/fa";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { FaUser } from "react-icons/fa";
-import CustomPopup from "./CustomPopup";
+import { updateModal } from "../redux/features/authSlice";
+import { setCartState } from "../redux/features/cartSlice";
 import { updateDarkMode } from "../redux/features/homeSlice";
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import CustomPopup from "./CustomPopup";
 
 const Navbar: FC = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +46,7 @@ const Navbar: FC = () => {
             </div>
           </div>
           <div className="flex gap-4 md:gap-8 items-center dark:text-white">
-            <Link
+            {/*<Link
               to="/products"
               className="text-xl font-bold"
               data-test="main-products"
@@ -59,15 +59,9 @@ const Navbar: FC = () => {
               data-test="main-categories"
             >
               Categories
-            </Link>
+            </Link>*/}
             <div className="flex items-center gap-2">
-              {username !== "" ? (
-                <img
-                  src="https://robohash.org/Terry.png?set=set4"
-                  alt="avatar"
-                  className="w-6"
-                />
-              ) : (
+              {username == "" && (
                 <FaUser className="text-gray-500 text-2xl dark:text-white" />
               )}
               <div className="text-gray-500 text-2xl">
