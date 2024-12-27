@@ -1,6 +1,7 @@
 import { FC } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Product } from "../models/Product";
 import { addToCart } from "../redux/features/cartSlice";
@@ -41,12 +42,7 @@ const ProductCard: FC<Product> = ({
 
   return (
     <div className="border border-gray-200 font-lato" data-test="product-card">
-      <div 
-        className="inline-block h-60 flex items-center justify-center font-bold text-2xl border rounded-md hover:bg-blue-500 text-white py-2 px-4 rounded bg-pink-500"
-      >
-        {id}
-      </div>
-      {/*<div className="text-center border-b border-gray-200">
+      <div className="text-center border-b border-gray-200">
         <Link to={{ pathname: `/product/${id}` }}>
           <img
             src={thumbnail}
@@ -54,7 +50,7 @@ const ProductCard: FC<Product> = ({
             className="inline-block h-60 transition-transform duration-200 hover:scale-110"
           />
         </Link> 
-      </div>*/}
+      </div>
       <div className="px-4 pt-4">
         <p className="text-gray-500 text-[14px] font-medium dark:text-white">
           {category}
@@ -62,13 +58,13 @@ const ProductCard: FC<Product> = ({
         <h3 className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block">
           {title}
         </h3>
-        {/* <Link
+        <Link
           className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block"
           to={{ pathname: `/product/${id}` }}
           title={title}
         >
           {title}
-        </Link> */}
+        </Link>
       </div>
       <div className="px-4">
         <RatingStar rating={rating} />

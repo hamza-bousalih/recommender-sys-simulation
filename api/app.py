@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import random
 
-from api.generate_product import generate_products, generate_products_score
+from data import get_items_ids, get_user
+from .generate_product import generate_products, generate_products_score
 from model import recommande
 
 app = Flask(__name__)
@@ -20,11 +21,13 @@ def get_items():
     if count is None:
         count = 20
     
-    if user_id not in users:
+    user = get_user(user_id)
+    
+    if user is None:
         products = generate_products(random.sample(range(1, 1_000), count))
         return jsonify({"products": products})
     
-    items = list(range(1, 1_000))
+    items = get_items_ids()
     top_items = recommande(user_id, items, count)
     products = generate_products_score(top_items)
 
