@@ -13,7 +13,7 @@ const Home: FC = () => {
 
   useEffect(() => {
     const fetchProducts = () => {
-      fetch("http://127.0.0.1:5000/items?userid=1&count=30")
+      fetch("http://127.0.0.1:5000/products?userid=330699&count=30")
         .then((res) => res.json())
         .then(({ products }) => {
           const productList: Product[] = [];

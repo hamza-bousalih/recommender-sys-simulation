@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import random
 
-from data import get_items_ids, get_rand_items, get_user, get_items
-from generate_product import generate_products, generate_products_score
+from data import get_items_ids, get_rand_items, get_user, get_items, get_item_by_id
 from model import recommande
 
 app = Flask(__name__)
@@ -14,8 +12,8 @@ def apply_cors_policy(response):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
 
-@app.route('/items', methods=['GET'])
-def items_api():
+@app.route('/products', methods=['GET'])
+def products_api():
     user_id = request.args.get('userid', type=int)
     count = request.args.get('count', type=int)
     if count is None:
@@ -33,6 +31,14 @@ def items_api():
     products = get_items(top_items)
 
     return jsonify({"products": products})
+
+@app.route('/products/<int:id>', methods=['GET'])
+def product_by_id(id):
+    product = get_item_by_id(id)
+    if product:
+        return jsonify(product)
+    else:
+        return jsonify({"error": "Product not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

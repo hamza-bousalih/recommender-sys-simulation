@@ -1,18 +1,17 @@
 import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
-import { addToCart, setCartState } from "../redux/features/cartSlice";
-import { Product } from "../models/Product";
-import RatingStar from "../components/RatingStar";
-import PriceSection from "../components/PriceSection";
 import toast from "react-hot-toast";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaHandHoldingDollar } from "react-icons/fa6";
-import ProductList from "../components/ProductList";
+import { MdFavoriteBorder } from "react-icons/md";
+import { useParams } from "react-router-dom";
+import PriceSection from "../components/PriceSection";
+import RatingStar from "../components/RatingStar";
 import Reviews from "../components/Reviews";
 import useAuth from "../hooks/useAuth";
-import { MdFavoriteBorder } from "react-icons/md";
+import { Product } from "../models/Product";
+import { addToCart, setCartState } from "../redux/features/cartSlice";
 import { addToWishlist } from "../redux/features/productSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 const lorem =
   "It is important to take care of the patient, to be followed by the patient, but it will happen at such a time that there is a lot of work and pain. For to come to the smallest detail, no one should practice any kind of work unless he derives some benefit from it. Do not be angry with the pain in the reprimand in the pleasure he wants to be a hair from the pain in the hope that there is no breeding. Unless they are blinded by lust, they do not come forth; they are in fault who abandon their duties and soften their hearts, that is, their labors.";
@@ -23,39 +22,21 @@ const SingleProduct: FC = () => {
   const [product, setProduct] = useState<Product>();
   const [imgs, setImgs] = useState<string[]>();
   const [selectedImg, setSelectedImg] = useState<string>();
-  const [sCategory, setScategory] = useState<string>();
-  const [similar, setSimilar] = useState<Product[]>([]);
   const { requireAuth } = useAuth();
 
   useEffect(() => {
     const fetchProductDetails = () => {
-      fetch(`https://dummyjson.com/products/${productID}`)
+      fetch(`http://127.0.0.1:5000/products/${productID}`)
         .then((res) => res.json())
         .then((data) => {
-          const { thumbnail, images, category } = data;
+          const { thumbnail, images } = data;
           setProduct(data);
           setImgs(images);
-          setScategory(category);
           setSelectedImg(thumbnail);
         });
     };
     fetchProductDetails();
   }, [productID]);
-
-  useEffect(() => {
-    const fetchPreferences = (cat: string) => {
-      fetch(`https://dummyjson.com/products/category/${cat}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const _products: Product[] = data.products;
-          const filtered = _products.filter((product) => {
-            if (productID && product.id !== parseInt(productID)) return product;
-          });
-          setSimilar(filtered);
-        });
-    };
-    if (sCategory && sCategory !== "") fetchPreferences(sCategory);
-  }, [productID, sCategory]);
 
   const addCart = () => {
     requireAuth(() => {
@@ -189,7 +170,7 @@ const SingleProduct: FC = () => {
         {product && <Reviews id={product?.id} />}
       </div>
       <hr className="mt-4" />
-      <ProductList title="Similar Products" products={similar} />
+      {/* <ProductList title="Similar Products" products={similar} /> */}
       <br />
     </div>
   );

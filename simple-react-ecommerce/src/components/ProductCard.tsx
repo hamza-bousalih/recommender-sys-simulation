@@ -55,9 +55,6 @@ const ProductCard: FC<Product> = ({
         <p className="text-gray-500 text-[14px] font-medium dark:text-white">
           {category}
         </p>
-        <h3 className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block">
-          {title}
-        </h3>
         <Link
           className="font-semibold hover:underline dark:text-white overflow-hidden text-ellipsis whitespace-nowrap block"
           to={{ pathname: `/product/${id}` }}

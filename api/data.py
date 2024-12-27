@@ -56,6 +56,22 @@ def get_items(ids):
         conn.close()
     return items
 
+def get_item_by_id(id):
+    item = None
+    try:
+        conn = psycopg2.connect(**db_params)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM products WHERE id = %s", (id,))
+        row = cursor.fetchone()
+        if row:
+            item = dict(zip([desc[0] for desc in cursor.description], row))
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+    return item
+
 def get_rand_items(k):
     items = []
     try:
