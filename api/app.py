@@ -41,7 +41,7 @@ def products_api():
     
     items = db.get_items_ids()
     top_items = recommender.recommend(user_id, items, count)
-    products = db.get_items_with_score(top_items)
+    products = db.get_items_with_probability(top_items)
     
     return jsonify({"products": products})
 

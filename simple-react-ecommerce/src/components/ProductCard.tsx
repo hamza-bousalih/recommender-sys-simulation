@@ -17,6 +17,7 @@ const ProductCard: FC<Product> = ({
   category,
   rating,
   discountPercentage,
+  probability
 }) => {
   const dispatch = useAppDispatch();
   const { requireAuth } = useAuth();
@@ -32,6 +33,7 @@ const ProductCard: FC<Product> = ({
           rating,
           thumbnail,
           discountPercentage,
+          probability
         })
       );
       toast.success("item added to cart successfully", {
@@ -60,7 +62,7 @@ const ProductCard: FC<Product> = ({
           to={{ pathname: `/product/${id}` }}
           title={title}
         >
-          {title}
+          {title} {probability && <span className="text-red-500">{probability}</span>}
         </Link>
       </div>
       <div className="px-4">

@@ -30,8 +30,10 @@ const Home: FC = () => {
               description: product.description,
               category: product.category,
               discountPercentage: product.discountPercentage,
+              probability: product.probability ? Math.floor((product.probability ?? 0) * 10000) / 10000: undefined,
             });
           });
+          productList.sort((a, b) => (b.probability ?? 0) - (a.probability ?? 0));
           dispatch(updateFeaturedList(productList.slice(0, 10)));
           dispatch(updateNewList(productList.slice(10, 30)));
         });

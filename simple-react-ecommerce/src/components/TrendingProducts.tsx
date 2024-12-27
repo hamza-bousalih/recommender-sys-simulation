@@ -5,9 +5,9 @@ const TrendingProducts = () => {
   const featuredProducts = useAppSelector(
     (state) => state.productReducer.featuredProducts
   );
-  const username = useAppSelector((state) => state.authReducer.username);
+  const id = useAppSelector((state) => state.authReducer.id);
 
-  return <ProductList title={username == ""? "Random Products": "Products For You"} products={featuredProducts} />;
+  return <ProductList title={id == ""? "Random Products": "Products For You"} products={featuredProducts} />;
 };
 
 export default TrendingProducts;

@@ -60,12 +60,12 @@ class Database:
             conn.close()
         return items
 
-    def get_items_with_score(self, ids_cores):
+    def get_items_with_probability(self, ids_probabilities):
         items = []
         try:
             conn = self.connect()
             cursor = conn.cursor()
-            ids = [id_score[0] for id_score in ids_cores]
+            ids = [id_score[0] for id_score in ids_probabilities]
             cursor.execute("SELECT * FROM products WHERE id = ANY(%s::int[])", (ids,))
             rows = cursor.fetchall()
             items = [dict(zip([desc[0] for desc in cursor.description], row)) for row in rows]
@@ -76,7 +76,8 @@ class Database:
             conn.close()
         # add score to items
         for item in items:
-            item['score'] = next(id_score[1] for id_score in ids_cores if id_score[0] == item['id'])
+            probability = list(filter(lambda id_probability: id_probability[0] == item['id'], ids_probabilities))[0][1]
+            item['probability'] = probability
         return items
 
     def get_item_by_id(self, id):
