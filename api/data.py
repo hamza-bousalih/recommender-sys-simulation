@@ -1,4 +1,3 @@
-
 import psycopg2
 
 # Database connection parameters
@@ -48,6 +47,21 @@ def get_items(ids):
         conn = psycopg2.connect(**db_params)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM products WHERE id = ANY(%s)", (ids,))
+        rows = cursor.fetchall()
+        items = [dict(zip([desc[0] for desc in cursor.description], row)) for row in rows]
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+    return items
+
+def get_rand_items(k):
+    items = []
+    try:
+        conn = psycopg2.connect(**db_params)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM products ORDER BY RANDOM() LIMIT %s", (k,))
         rows = cursor.fetchall()
         items = [dict(zip([desc[0] for desc in cursor.description], row)) for row in rows]
     except Exception as e:

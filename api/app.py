@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import random
 
-from data import get_items_ids, get_user
-from .generate_product import generate_products, generate_products_score
+from data import get_items_ids, get_rand_items, get_user, get_items
+from generate_product import generate_products, generate_products_score
 from model import recommande
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ def apply_cors_policy(response):
     return response
 
 @app.route('/items', methods=['GET'])
-def get_items():
+def items_api():
     user_id = request.args.get('userid', type=int)
     count = request.args.get('count', type=int)
     if count is None:
@@ -24,12 +24,13 @@ def get_items():
     user = get_user(user_id)
     
     if user is None:
-        products = generate_products(random.sample(range(1, 1_000), count))
+        products = get_rand_items(count)
         return jsonify({"products": products})
     
     items = get_items_ids()
     top_items = recommande(user_id, items, count)
-    products = generate_products_score(top_items)
+    top_items = [item[0] for item in top_items]
+    products = get_items(top_items)
 
     return jsonify({"products": products})
 
