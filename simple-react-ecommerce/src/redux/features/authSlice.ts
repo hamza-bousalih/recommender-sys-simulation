@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthSlice } from "../../models/AuthSlice";
 
 interface LoginProps {
+  id: string;
   username: string;
   password: string;
 }
@@ -19,12 +20,6 @@ const initialState: AuthSlice = {
     id: localStorage.getItem("id") ?? "",
 };
 
-const users = [
-  { id: 1, username: "user 1", password: "123" },
-  { id: 2, username: "user 2", password: "123" },
-  { id: 3, username: "user 3", password: "123" },
-]
-
 export const authSlice = createSlice({
   name: "authSlice",
   initialState,
@@ -33,21 +28,15 @@ export const authSlice = createSlice({
       return { ...state, modalOpen: action.payload };
     },
     doLogin: (state, action: PayloadAction<LoginProps>) => {
-      if (
-        users.some(u => u.username === action.payload.username && u.password === action.payload.password)
-      ) {
-        localStorage.setItem("username", action.payload.username);
-        localStorage.setItem("id", users.find(u => u.username === action.payload.username)?.id.toString() ?? "");
-        return {
-          ...state,
-          username: action.payload.username,
-          id: users.find(u => u.username === action.payload.username)?.id.toString() ?? "",
-          modalOpen: false,
-          isLoggedIn: true,
-        };
-      } else {
-        return state;
-      }
+      localStorage.setItem("username", action.payload.username);
+      localStorage.setItem("id", action.payload.id ??"");
+      return {
+        ...state,
+        username: action.payload.username,
+        id: action.payload.id ?? "",
+        modalOpen: false,
+        isLoggedIn: true,
+      };
     },
     doLogout: (state) => {
       localStorage.removeItem("username");

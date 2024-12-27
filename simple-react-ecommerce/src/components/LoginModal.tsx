@@ -1,10 +1,10 @@
 import { FC, FormEvent, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { doLogin, updateModal } from "../redux/features/authSlice";
 import { FaUnlock } from "react-icons/fa";
-import { RiLockPasswordFill, RiUser3Fill } from "react-icons/ri";
 import { GiArchiveRegister } from "react-icons/gi";
+import { RiLockPasswordFill, RiUser3Fill } from "react-icons/ri";
 import { RxCross1 } from "react-icons/rx";
+import { doLogin, updateModal } from "../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 const LoginModal: FC = () => {
   const [clicked, setClicked] = useState(false);
@@ -15,7 +15,19 @@ const LoginModal: FC = () => {
 
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(doLogin({ username, password }));
+    fetch("http://127.0.0.1:5000/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data['error']) return alert(data['error']); 
+        dispatch(doLogin({ ...data }));
+      })
+      .catch((err) => console.log(err));
   };
 
   if (open) {

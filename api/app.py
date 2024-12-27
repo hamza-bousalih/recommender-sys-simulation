@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from data import get_items_ids, get_rand_items, get_user, get_items, get_item_by_id
+from data import get_items_ids, get_rand_items, get_user, get_items, get_item_by_id, login_user
 from model import recommande
 
 app = Flask(__name__)
@@ -11,6 +11,18 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 def apply_cors_policy(response):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
+
+@app.route('/login', methods=['POST'])
+def login_api():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    user = login_user(username, password)
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({"error": "Invalid username or password"}), 401
+
 
 @app.route('/products', methods=['GET'])
 def products_api():

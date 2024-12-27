@@ -6,14 +6,16 @@ import {
   updateFeaturedList,
   updateNewList,
 } from "../redux/features/productSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
+  const id = useAppSelector((state) => state.authReducer.id);
+  
 
   useEffect(() => {
     const fetchProducts = () => {
-      fetch("http://127.0.0.1:5000/products?userid=330699&count=30")
+      fetch(`http://127.0.0.1:5000/products?userid=${id}&count=30`)
         .then((res) => res.json())
         .then(({ products }) => {
           const productList: Product[] = [];
@@ -35,7 +37,7 @@ const Home: FC = () => {
         });
     };
     fetchProducts();
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <div className="dark:bg-slate-800">
