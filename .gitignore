@@ -3,3 +3,4 @@
 /api/*/*.json
 /api/*/*.ipynb
 /api/*.csv
+/pres-notes.*
