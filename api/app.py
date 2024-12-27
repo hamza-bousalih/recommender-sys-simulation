@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from data import get_items_ids, get_rand_items, get_user, get_items, get_item_by_id, login_user
+from data import db
 from model import recommande
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def login_api():
     data = request.json
     username = data.get('username')
     password = data.get('password')
-    user = login_user(username, password)
+    user = db.login_user(username, password)
     if user:
         return jsonify(user)
     else:
@@ -31,22 +31,22 @@ def products_api():
     if count is None:
         count = 20
     
-    user = get_user(user_id)
+    user = db.get_user(user_id)
     
     if user is None:
-        products = get_rand_items(count)
+        products = db.get_rand_items(count)
         return jsonify({"products": products})
     
-    items = get_items_ids()
+    items = db.get_items_ids()
     top_items = recommande(user_id, items, count)
     top_items = [item[0] for item in top_items]
-    products = get_items(top_items)
+    products = db.get_items(top_items)
 
     return jsonify({"products": products})
 
 @app.route('/products/<int:id>', methods=['GET'])
 def product_by_id(id):
-    product = get_item_by_id(id)
+    product = db.get_item_by_id(id)
     if product:
         return jsonify(product)
     else:
