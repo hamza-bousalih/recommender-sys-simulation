@@ -12,18 +12,11 @@ const HeroSection: FC = () => {
             <h3 className="text-2xl dark:text-white">
               <span className="text-4xl md:text-4xl">C</span>ross-<span className="text-4xl md:text-4xl">D</span>omain <span className="text-4xl md:text-4xl">R</span>ecommander <span className="text-4xl md:text-4xl">S</span>ystem with <span className="text-red-600"><span className="text-4xl md:text-4xl">T</span>ransfer <span className="text-4xl md:text-4xl">L</span>earning</span>.
             </h3>
-            {/*<Link
-              to="/product/6"
-              data-test="hero-btn"
-              className="inline-block bg-white rounded-md px-6 py-3 hover:bg-blue-500 hover:text-white"
-            >
-              Shop Now
-            </Link>*/}
           </div>
         </div>
-        {/* <div>
+        <div>
           <img src="/hero.png" alt="hero" className="ml-auto" />
-        </div> */}
+        </div>
       </div>
     </div>
   );

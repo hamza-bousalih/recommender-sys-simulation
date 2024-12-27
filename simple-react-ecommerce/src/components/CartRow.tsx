@@ -1,17 +1,17 @@
 import { FC } from "react";
-import { CartItem } from "../models/CartItem";
 import {
   IoIosAddCircleOutline,
   IoIosRemoveCircleOutline,
 } from "react-icons/io";
-import { useAppDispatch } from "../redux/hooks";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import useDiscount from "../hooks/useDiscount";
+import { CartItem } from "../models/CartItem";
 import {
   addToCart,
   reduceFromCart,
   removeFromCart,
 } from "../redux/features/cartSlice";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import useDiscount from "../hooks/useDiscount";
+import { useAppDispatch } from "../redux/hooks";
 
 const CartRow: FC<CartItem> = ({
   id,
@@ -28,7 +28,11 @@ const CartRow: FC<CartItem> = ({
 
   return (
     <div className="grid grid-cols-7 gap-3 border items-center">
-      <img src={thumbnail} alt="thumbnail" className="h-20 col-span-2" />
+      <div 
+        className="inline-block h-20 w-10 flex items-center justify-center font-bold text-2xl border rounded-md hover:bg-blue-500 text-white py-2 px-4 rounded bg-pink-500"
+      >
+        {id}
+      </div>
       <div className="col-span-3">
         <h3 className="font-bold leading-4">{title}</h3>
         <div className="flex space-x-2 items-center">

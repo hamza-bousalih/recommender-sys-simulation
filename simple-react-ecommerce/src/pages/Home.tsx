@@ -13,25 +13,25 @@ const Home: FC = () => {
 
   useEffect(() => {
     const fetchProducts = () => {
-      fetch("https://dummyjson.com/products?limit=24")
+      fetch("http://127.0.0.1:5000/items?userid=1&count=30")
         .then((res) => res.json())
         .then(({ products }) => {
           const productList: Product[] = [];
           products.forEach((product: Product) => {
             productList.push({
               id: product.id,
-              title: `Title ${product.id}`,
+              title: product.title,
               images: product.images,
-              price: Math.round(Math.random() * 100),
-              rating: Math.round(Math.random() * 5),
+              price: product.price,
+              rating: product.rating,
               thumbnail: product.thumbnail,
-              description: `Description ${product.id}`,
-              category: `Category ${product.id}`,
-              discountPercentage: Math.round(Math.random() * 50),
+              description: product.description,
+              category: product.category,
+              discountPercentage: product.discountPercentage,
             });
           });
-          dispatch(updateFeaturedList(productList.slice(0, 8)));
-          dispatch(updateNewList(productList.slice(8, 16)));
+          dispatch(updateFeaturedList(productList.slice(0, 10)));
+          dispatch(updateNewList(productList.slice(10, 30)));
         });
     };
     fetchProducts();
