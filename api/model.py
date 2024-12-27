@@ -49,10 +49,9 @@ class RecommenderModel:
     def _load_model(self):
         model_path = self._load_model_path()
         if not model_path:
-            os.environ['KAGGLEHUB_CACHE_DIR'] = 'C:/kagglehub_cache'
-            model_path = kagglehub.model_download(self.kaggle_model)
+            model_path = kagglehub.model_download(self.kaggle_model, path='model.pth', force_download=True)
             self._save_model_path(model_path)
-        self.model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+        self.model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu'), weights_only=True))
         self.model.eval()
     
     def recommend(self, user_id: int, items: list, k: int):
