@@ -1,8 +1,14 @@
 import psycopg2
 
 class Database:
-    def __init__(self, db_params):
-        self.db_params = db_params
+    def __init__(self):
+        self.db_params = {
+            'dbname': 'rs',
+            'user': 'username',
+            'password': 'password',
+            'host': 'localhost',
+            'port': '5432'
+        }
 
     def connect(self):
         return psycopg2.connect(**self.db_params)
@@ -54,6 +60,25 @@ class Database:
             conn.close()
         return items
 
+    def get_items_with_score(self, ids_cores):
+        items = []
+        try:
+            conn = self.connect()
+            cursor = conn.cursor()
+            ids = [id_score[0] for id_score in ids_cores]
+            cursor.execute("SELECT * FROM products WHERE id = ANY(%s::int[])", (ids,))
+            rows = cursor.fetchall()
+            items = [dict(zip([desc[0] for desc in cursor.description], row)) for row in rows]
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        finally:
+            cursor.close()
+            conn.close()
+        # add score to items
+        for item in items:
+            item['score'] = next(id_score[1] for id_score in ids_cores if id_score[0] == item['id'])
+        return items
+
     def get_item_by_id(self, id):
         item = None
         try:
@@ -99,15 +124,3 @@ class Database:
             cursor.close()
             conn.close()
         return items
-
-# Database connection parameters
-db_params = {
-    'dbname': 'rs',
-    'user': 'username',
-    'password': 'password',
-    'host': 'localhost',
-    'port': '5432'
-}
-
-# Create a Database instance
-db = Database(db_params)

@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from data import db
-from model import recommande
+from data import Database
+from model import RecommenderModel
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+recommender = RecommenderModel()
+db = Database()
 
 @app.after_request
 def apply_cors_policy(response):
@@ -23,7 +26,6 @@ def login_api():
     else:
         return jsonify({"error": "Invalid username or password"}), 401
 
-
 @app.route('/products', methods=['GET'])
 def products_api():
     user_id = request.args.get('userid', type=int)
@@ -38,10 +40,9 @@ def products_api():
         return jsonify({"products": products})
     
     items = db.get_items_ids()
-    top_items = recommande(user_id, items, count)
-    top_items = [item[0] for item in top_items]
-    products = db.get_items(top_items)
-
+    top_items = recommender.recommend(user_id, items, count)
+    products = db.get_items_with_score(top_items)
+    
     return jsonify({"products": products})
 
 @app.route('/products/<int:id>', methods=['GET'])
